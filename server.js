@@ -20,24 +20,26 @@ app.get("/", function (req, res) {
 
 
 app.get("/api/timestamp/", (req, res) => {
-  res.json({ unix: Date.now(), utc: Date() });
+   res.json({ unix: Date.now(), utc: Date() });
 });
 
 app.get("/api/timestamp/:date_string", (req, res) => {
-  let dateString = req.params.date_string;
-
-  if (/\d{5,}/.test(dateString)) {
-    let dateInt = parseInt(dateString);
-    res.json({ unix: dateString, utc: new Date(dateInt).toUTCString() });
+  
+  let input = req.params.date_string;
+  
+  if (/\d{5,}/.test(input)) {
+    let dateInt = parseInt(input);
+    res.json({ unix: input, utc: new Date(dateInt).toUTCString() });
   }
 
-  let dateObject = new Date(dateString);
-
-  if (dateObject.toString() === "Invalid Date") {
-    res.json({ error: "Invaid Date" });
+  let dateObj = new Date(input);
+  
+  if (dateObj.toString() === "Invalid Date") {
+     res.json({ error: "Invalid Date" });
   } else {
-    res.json({ unix: dateObject.valueOf(), utc: dateObject.toUTCString() });
+     res.json({ unix: dateObj.valueOf(), utc: dateObj.toUTCString() });
   }
+  
 });
 
 
